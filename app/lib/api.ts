@@ -2,9 +2,7 @@
 
 import axios, { AxiosError } from 'axios';
 
-// ==================== CONFIGURATION ====================
-
-// ✅ COMPLETELY HARDCODED - No env variables
+// ✅ COMPLETELY HARDCODED - No env variables at all
 const API_BASE_URL = 'https://aiasistsystembackend.onrender.com/api';
 
 console.log('🔌 API Base URL:', API_BASE_URL);
@@ -19,7 +17,8 @@ const api = axios.create({
 
 // Request interceptor for debugging
 api.interceptors.request.use((config) => {
-  console.log(`📤 ${config.method?.toUpperCase()} ${config.url} -> ${config.baseURL}${config.url}`);
+  const fullUrl = `${config.baseURL}${config.url}`;
+  console.log(`📤 ${config.method?.toUpperCase()} ${fullUrl}`);
   return config;
 });
 
@@ -31,9 +30,7 @@ api.interceptors.response.use(
   },
   (error: AxiosError) => {
     console.error('❌ API Error:', error.message);
-    if (error.response) {
-      console.error('Response:', error.response.data);
-    }
+    console.error('❌ Request URL:', error.config?.baseURL, error.config?.url);
     return Promise.reject(error);
   }
 );
@@ -126,19 +123,16 @@ export interface ApiHealth {
 // ==================== API FUNCTIONS ====================
 
 export const journalApi = {
-  // Health check
   healthCheck: async (): Promise<ApiHealth> => {
     const response = await api.get<ApiHealth>('/health');
     return response.data;
   },
 
-  // Create a new journal entry
   createEntry: async (data: CreateEntryRequest): Promise<ApiResponse<JournalEntry>> => {
     const response = await api.post<ApiResponse<JournalEntry>>('/journal', data);
     return response.data;
   },
 
-  // Get all entries for a user
   getEntries: async (userId: string, limit: number = 50, offset: number = 0): Promise<ApiResponse<JournalEntry[]>> => {
     const response = await api.get<ApiResponse<JournalEntry[]>>(`/journal/${userId}`, {
       params: { limit, offset },
@@ -146,25 +140,21 @@ export const journalApi = {
     return response.data;
   },
 
-  // Analyze text for emotions
   analyzeText: async (data: AnalyzeRequest): Promise<ApiResponse<EmotionAnalysis>> => {
     const response = await api.post<ApiResponse<EmotionAnalysis>>('/journal/analyze', data);
     return response.data;
   },
 
-  // Analyze existing entry by ID
   analyzeEntry: async (entryId: number): Promise<ApiResponse<{ entryId: number; analysis: EmotionAnalysis }>> => {
     const response = await api.post<ApiResponse<{ entryId: number; analysis: EmotionAnalysis }>>(`/journal/${entryId}/analyze`);
     return response.data;
   },
 
-  // Get insights for a user
   getInsights: async (userId: string): Promise<ApiResponse<Insights>> => {
     const response = await api.get<ApiResponse<Insights>>(`/journal/insights/${userId}`);
     return response.data;
   },
 
-  // Stream analysis (for real-time updates)
   streamAnalyze: async (text: string, onChunk: (chunk: StreamChunk) => void): Promise<void> => {
     const response = await fetch(`${API_BASE_URL}/journal/analyze`, {
       method: 'POST',
@@ -199,9 +189,6 @@ export const journalApi = {
             try {
               const parsed: StreamChunk = JSON.parse(data);
               onChunk(parsed);
-              if (parsed.error) {
-                throw new Error(parsed.error);
-              }
             } catch (e) {
               // Ignore parse errors
             }
@@ -213,7 +200,6 @@ export const journalApi = {
     }
   },
 
-  // Cache management (for debugging/admin)
   getCacheStats: async (): Promise<ApiResponse<{ keys: string[]; stats: CacheStats }>> => {
     const response = await api.get<ApiResponse<{ keys: string[]; stats: CacheStats }>>('/journal/cache/stats');
     return response.data;
