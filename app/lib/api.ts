@@ -4,13 +4,10 @@ import axios, { AxiosError } from 'axios';
 
 // ==================== CONFIGURATION ====================
 
-// ✅ HARDCODED: Your Render backend URL
+// ✅ COMPLETELY HARDCODED - No env variables
 const API_BASE_URL = 'https://aiasistsystembackend.onrender.com/api';
 
-const ENABLE_STREAMING = true;
-
 console.log('🔌 API Base URL:', API_BASE_URL);
-console.log('⚡ Streaming Enabled:', ENABLE_STREAMING);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -22,7 +19,7 @@ const api = axios.create({
 
 // Request interceptor for debugging
 api.interceptors.request.use((config) => {
-  console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
+  console.log(`📤 ${config.method?.toUpperCase()} ${config.url} -> ${config.baseURL}${config.url}`);
   return config;
 });
 
@@ -169,10 +166,6 @@ export const journalApi = {
 
   // Stream analysis (for real-time updates)
   streamAnalyze: async (text: string, onChunk: (chunk: StreamChunk) => void): Promise<void> => {
-    if (!ENABLE_STREAMING) {
-      throw new Error('Streaming is disabled');
-    }
-
     const response = await fetch(`${API_BASE_URL}/journal/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -210,9 +203,7 @@ export const journalApi = {
                 throw new Error(parsed.error);
               }
             } catch (e) {
-              if (e instanceof Error && e.message !== 'Failed to parse final result') {
-                console.warn('Parse error:', e);
-              }
+              // Ignore parse errors
             }
           }
         }
