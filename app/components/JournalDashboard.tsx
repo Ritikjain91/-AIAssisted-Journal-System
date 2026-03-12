@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback,JSX } from 'react';
 import { journalApi, JournalEntry, Insights } from '@/app/lib/api';
 import JournalEntryForm from './JournalEntryForm';  // Changed import
 import EntryList from './EntryList';
