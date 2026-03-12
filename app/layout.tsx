@@ -1,18 +1,18 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  async rewrites() {
-    // Use a default value that works for both local and production
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL?.startsWith('http') 
-      ? process.env.NEXT_PUBLIC_API_URL 
-      : 'http://localhost:3001';
-    
-    return [
-      {
-        source: '/api/:path*',
-        destination: `${apiUrl}/api/:path*`,
-      },
-    ];
-  },
+export const metadata = {
+  title: 'ArvyaX Journal',
+  description: 'AI-Assisted Journal System for Nature Sessions',
 };
 
-export default nextConfig;
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body style={{ margin: 0, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+        {children}
+      </body>
+    </html>
+  );
+}
