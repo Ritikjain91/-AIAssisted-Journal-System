@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Use static values or runtime config instead of env during build
   async rewrites() {
+    // Get API URL with fallback
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     
     return [
@@ -12,7 +12,7 @@ const nextConfig = {
     ];
   },
   
-  // For Vercel deployment, you might want to use headers instead
+  // Add headers for CORS
   async headers() {
     return [
       {
@@ -20,7 +20,6 @@ const nextConfig = {
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
         ],
       },
     ];
