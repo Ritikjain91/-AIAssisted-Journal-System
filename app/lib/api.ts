@@ -2,8 +2,12 @@
 
 import axios, { AxiosError } from 'axios';
 
-// Environment configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || 'http://localhost:3001/api';
+// ==================== CONFIGURATION ====================
+
+// Fix: Always append /api to the base URL
+const rawUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE_URL = `${rawUrl.replace(/\/$/, '')}/api`;
+
 const ENABLE_STREAMING = process.env.NEXT_PUBLIC_ENABLE_STREAMING === 'true';
 
 console.log('🔌 API Base URL:', API_BASE_URL);
