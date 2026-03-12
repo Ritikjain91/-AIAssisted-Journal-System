@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    // Remove trailing slash if present
-    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001").replace(/\/$/, "");
+    // ✅ HARDCODED: Your Render backend URL
+    const apiUrl = 'https://aiasistsystembackend.onrender.com';
 
-    console.log("API URL:", apiUrl);  // For debugging
+    console.log("API URL:", apiUrl);
 
     return [
       {
         source: "/api/:path*",
-        destination: `${apiUrl}/api/:path*`,  // ✅ Correct
+        destination: `${apiUrl}/api/:path*`,
       },
     ];
   },
