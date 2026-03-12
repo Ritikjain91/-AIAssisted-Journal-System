@@ -1,14 +1,18 @@
 // NO 'use server' directive - this is for client-side only
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL 
+  ? `${process.env.NEXT_PUBLIC_API_URL}/api`
+  : '/api';  // Uses Next.js rewrites in development
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000,  // 10 second timeout
 });
+
 
 // Types
 export interface JournalEntry {
