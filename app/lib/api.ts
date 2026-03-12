@@ -4,11 +4,10 @@ import axios, { AxiosError } from 'axios';
 
 // ==================== CONFIGURATION ====================
 
-// Fix: Always append /api to the base URL
-const rawUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-const API_BASE_URL = `${rawUrl.replace(/\/$/, '')}/api`;
+// ✅ HARDCODED: Your Render backend URL
+const API_BASE_URL = 'https://aiasistsystembackend.onrender.com/api';
 
-const ENABLE_STREAMING = process.env.NEXT_PUBLIC_ENABLE_STREAMING === 'true';
+const ENABLE_STREAMING = true;
 
 console.log('🔌 API Base URL:', API_BASE_URL);
 console.log('⚡ Streaming Enabled:', ENABLE_STREAMING);
