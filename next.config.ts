@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    // ✅ HARDCODED: Your Render backend URL (NO trailing space!)
-    const apiUrl = 'https://aiasistsystembackend.onrender.com'.trim();
+    // ✅ CORRECT - NO SPACE AT ALL
+    const apiUrl = 'https://aiasistsystembackend.onrender.com';
 
-
-    console.log("API URL:", apiUrl);
+    // Debug: Use JSON.stringify to see any hidden spaces
+    console.log("API URL:", JSON.stringify(apiUrl));
+    console.log("Destination:", JSON.stringify(`${apiUrl}/api/:path*`));
 
     return [
       {
