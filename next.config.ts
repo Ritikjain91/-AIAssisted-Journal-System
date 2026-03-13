@@ -2,7 +2,8 @@
 const nextConfig = {
   async rewrites() {
     // ✅ HARDCODED: Your Render backend URL (NO trailing space!)
-    const apiUrl = 'https://aiasistsystembackend.onrender.com';
+    const apiUrl = 'https://aiasistsystembackend.onrender.com'.trim();
+
 
     console.log("API URL:", apiUrl);
 
