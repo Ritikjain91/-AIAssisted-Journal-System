@@ -1,10 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 ArvyaX AI-Assisted Journal System
 
-## Getting Started
+AI-powered journaling platform that analyzes emotions from nature immersion sessions and provides mental health insights.
 
-First, run the development server:
+**Live Demo**: https://ai-assisted-journal-system-iota.vercel.app  
+**API Base**: https://aiasistsystembackend.onrender.com
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone & Install
 
 ```bash
+# Backend
+cd backend
+npm install
+npm start
+
+# Frontend (new terminal)
+cd frontend
+npm install
 npm run dev
 # or
 yarn dev
